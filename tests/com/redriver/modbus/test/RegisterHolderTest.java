@@ -12,7 +12,7 @@ public class RegisterHolderTest extends TestCase {
     }
 
     public void testToBytes() throws Exception {
-        RegisterHolder holder = new RegisterHolder((short) 40001, (short) 5);
+        RegisterHolder holder = new RegisterHolder((byte)1,(short) 40001, (short) 5);
         System.out.println(ByteUtils.toHexString(holder.toBytes()));
         assertEquals(ByteUtils.toHexString(holder.toBytes()),"9C4100050A00000000000000000000");
 
@@ -25,7 +25,7 @@ public class RegisterHolderTest extends TestCase {
     }
 
     public void testSize() throws Exception {
-        RegisterHolder holder = new RegisterHolder((short) 40001, (short) 5);
+        RegisterHolder holder = new RegisterHolder((byte)1,(short) 40001, (short) 5);
         assertEquals(holder.size(),5+10);
     }
 }

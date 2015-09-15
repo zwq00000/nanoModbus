@@ -27,9 +27,9 @@ public class ModbusFrameTest extends TestCase {
     public void testCreateReadRegFrame() throws Exception {
         //FE 01 00 00 00 06 A8 07
         ModbusFrame frame = ModbusFrame.createReadCoilsFrame((byte) 0xFE, (short) 0, (short) 6);
-        String valueStr = ModbusUtilityTest.toHexString(frame.getValues());
+        String valueStr = CRC16Test.toHexString(frame.getValues());
         assertEquals(valueStr,"FE0100000006");
-        assertEquals(ModbusUtilityTest.toHexString(frame.toBytes()), "FE0100000006A807");
+        assertEquals(CRC16Test.toHexString(frame.toBytes()), "FE0100000006A807");
     }
 
     public void testCreateReadRegFrame1() throws Exception {
@@ -55,7 +55,7 @@ public class ModbusFrameTest extends TestCase {
         //FE 地址 0号寄存器 开
         //FE 05 00 00 FF 00 98 35
         ModbusFrame frame = ModbusFrame.createWriteCoilFrame((byte) 0xFE, (short) 0, true);
-        String valueStr = ModbusUtilityTest.toHexString(frame.getValues());
+        String valueStr = CRC16Test.toHexString(frame.getValues());
         assertEquals(valueStr,"FE050000FF00" );
         assertEquals(ByteUtils.toHexString(frame.toBytes()),"FE050000FF009835");
     }
@@ -102,12 +102,12 @@ public class ModbusFrameTest extends TestCase {
         Thread.sleep(200);
         byte[] buf = new byte[255];
         int len = input.read(buf);
-        assertTrue(len>0);
+        assertTrue(len > 0);
         Log.d("ModbusFrame", ByteUtils.toHexString(buf, len));
         CoilStatus coils = new CoilStatus(4);
         coils.readResponse(buf,len);
-        assertEquals(coils.getCoil(0),false);
-        assertEquals(coils.getCoil(1),false);
+        assertEquals(coils.getCoil(0), false);
+        assertEquals(coils.getCoil(1), false);
         assertEquals(coils.getCoil(2),false);
         assertEquals(coils.getCoil(3),false);
     }
@@ -119,7 +119,7 @@ public class ModbusFrameTest extends TestCase {
 
         coilStatus.setAll(true);
         readFrame = ModbusFrame.createWriteCoilsFrame((byte)1, coilStatus);
-        System.out.println(ModbusUtilityTest.toHexString(readFrame.toBytes()));
+        System.out.println(CRC16Test.toHexString(readFrame.toBytes()));
     }
 
     public void testCreateWriteCoilsFrame1() throws Exception{
@@ -156,5 +156,9 @@ public class ModbusFrameTest extends TestCase {
     public static SerialPort createSerialPort() throws IOException {
         String portName = "/dev/ttyS1";
         return new SerialPort(new File(portName),115200,0);
+    }
+
+    public static SerialPort createSerialPort(String portName) throws IOException {
+        return new SerialPort(new File(portName),9600,0);
     }
 }

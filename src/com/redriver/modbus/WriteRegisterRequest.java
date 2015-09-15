@@ -1,6 +1,7 @@
 package com.redriver.modbus;
 
 /**
+ * 写入 单一保持寄存器
  * Created by zwq00000 on 2014/7/10.
  */
 public class WriteRegisterRequest extends ModbusFrame {
@@ -50,13 +51,29 @@ public class WriteRegisterRequest extends ModbusFrame {
     }
 
     /**
+     * 发生在 读取数据之前的事件
+     */
+    @Override
+    void beforeReadFrame() {
+
+    }
+
+    /**
      * 读取响应数据
      *
      * @param responseBuffer
      * @param length
      */
     @Override
-    void readResponse(byte[] responseBuffer, int length) {
+    boolean readResponse(byte[] responseBuffer, int length) {
+        return false;
+    }
 
+    /**
+     * PDU： 协议数据单元 长度 包括 功能码 和 数据 不包括 地址域 和 CRC 校验
+     */
+    @Override
+    int getPDULen() {
+        return 4;
     }
 }

@@ -8,7 +8,7 @@ public class WriteRegistersRequestTest extends TestCase {
     private RegisterHolder holder;
     public void setUp() throws Exception {
         super.setUp();
-        holder = new RegisterHolder((short)5,(short)5);
+        holder = new RegisterHolder((byte)1, (short)5,(short)5);
         //holder.setValue(0,(short)1);
         //holder.setValue(1,(short)120);
         //holder.setValue(2,(short)10);
@@ -42,8 +42,8 @@ public class WriteRegistersRequestTest extends TestCase {
 
         System.out.println(holder.toString());
 
-        holder = new RegisterHolder((short)1,(short)5);
-        frame = new ReadHoldingRegistersRequest((byte) 1, holder);
+        holder = new RegisterHolder((byte)1, (short)1,(short)5);
+        frame = new ReadHoldingRegistersRequest(holder);
         frame.writeFrame(port.getOutputStream());
         Thread.sleep(10);
         frame.readResponse(port.getInputStream());

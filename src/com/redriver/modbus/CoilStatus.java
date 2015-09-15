@@ -63,7 +63,7 @@ public class CoilStatus {
      *
      * @return
      */
-    public int size() {
+    public int bytesSize() {
         return 2 + 2 + 1 + mStatus.length;
     }
 

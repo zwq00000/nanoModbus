@@ -11,7 +11,7 @@ public class WriteRegisterRequestTest extends TestCase {
     private RegisterHolder holder;
 
     public void testWriteFrame() throws Exception {
-        holder = new RegisterHolder((short)1,(short)5);
+        holder = new RegisterHolder((byte)1,(short)1,(short)5);
         //holder.setValue(0,(short)1);
         //holder.setValue(1,(short)120);
         //holder.setValue(2,(short)10);

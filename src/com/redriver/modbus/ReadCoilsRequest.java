@@ -44,22 +44,39 @@ public class ReadCoilsRequest extends ModbusFrame {
 
     }
 
+    /**
+     * 发生在 读取数据之前的事件
+     */
+    @Override
+    void beforeReadFrame() {
+
+    }
+
 
     /**
      * 读取响应数据流
      *
      * @param responseBuffer
      */
-    void readResponse(byte[] responseBuffer,int length) {
+    boolean readResponse(byte[] responseBuffer,int length) {
         byte slaveId = responseBuffer[0];
         if(slaveId!=getSlaveId()){
             // 从站ID 不符
-            return;
+            return false;
         }
         byte funcCode = responseBuffer[1];
         if(funcCode!=this.getFunctionCode()){
-            return;
+            return false;
         }
         this.coils.readResponse(responseBuffer,length);
+        return true;
+    }
+
+    /**
+     * PDU： 协议数据单元 长度 包括 功能码 和 数据 不包括 地址域 和 CRC 校验
+     */
+    @Override
+    int getPDULen() {
+        return (coils.getCount() + 7) / 8 + 2;
     }
 }

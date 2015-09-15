@@ -19,7 +19,7 @@ public class WriteCoilsRequest extends ModbusFrame {
      * @param slaveId
      */
     public WriteCoilsRequest(byte slaveId, CoilStatus coilStatus) {
-        super(slaveId, FunctionCode.WRITE_COILS,coilStatus.size());
+        super(slaveId, FunctionCode.WRITE_COILS,coilStatus.bytesSize());
         coils = coilStatus;
         super.setValues(coilStatus.toBytes());
     }
@@ -44,13 +44,29 @@ public class WriteCoilsRequest extends ModbusFrame {
     }
 
     /**
+     * 发生在 读取数据之前的事件
+     */
+    @Override
+    void beforeReadFrame() {
+
+    }
+
+    /**
      * 读取响应数据
      *
      * @param responseBuffer
      * @param length
      */
     @Override
-    void readResponse(byte[] responseBuffer, int length) {
+    boolean readResponse(byte[] responseBuffer, int length) {
+        return false;
+    }
 
+    /**
+     * PDU： 协议数据单元 长度 包括 功能码 和 数据 不包括 地址域 和 CRC 校验
+     */
+    @Override
+    int getPDULen() {
+        return 5;
     }
 }
